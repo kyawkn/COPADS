@@ -93,7 +93,7 @@ public class Goldbach extends Task {
     // error printout method
     private static void usage(int errno) {
 
-        System.err.println("Usage error.")
+        System.err.println("Usage error.");
         System.err.println("Usage: java pj2 Goldbach <n>");
         if (errno == 1) {
             System.out.println("<n> must be an even number > 4 (type int).");
