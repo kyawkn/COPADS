@@ -12,7 +12,7 @@ import edu.rit.pj2.Loop;
 import edu.rit.pj2.vbl.IntVbl;
 import java.math.BigInteger;
 
-
+// Goldbach class
 public class Goldbach extends Task {
 
     // command input
