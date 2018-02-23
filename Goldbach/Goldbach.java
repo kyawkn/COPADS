@@ -86,7 +86,7 @@ public class Goldbach extends Task {
 
         } catch (Exception ex) {
             System.err.println("Error while parsing the input: " + ex);
-            System.exit(1);
+            usage(1);
         }
 
     }
