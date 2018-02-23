@@ -6,7 +6,7 @@
 
 import edu.rit.pj2.Task;
 import edu.rit.pj2.Loop;
-import edu.rit.pj2.vbl.LongVbl;
+import edu.rit.pj2.vbl.IntVbl;
 import java.math.BigInteger;
 
 public class Goldbach extends Task {
@@ -15,41 +15,53 @@ public class Goldbach extends Task {
     int seed;
 
     // shared answers
-    int counts;
-    BigInteger maxX = 0;
-    BigInteger minX =-0;
+    IntVbl counts;
+    int  maxX = 0;
+    int  minX;
 
-    public static void main(String[] args) throws Exception {
+    public void main(String[] args) throws Exception {
 
         if (args.length != 1) usage(0);
 
         try {
             seed = Integer.parseInt(args[0]);
-
+	    counts = new IntVbl.Sum(0);
             if (seed < 5) usage(1);
-
-              counts = new LongVbl.Sum(0);
-
+	      minX = seed;	
               parallelFor(1, seed/2) .exec (new Loop () {
 
-                int localCount;
+                IntVbl localCount;
 
                 public void start() {
-                  localCount = threadCount (counts);
+                  localCount = threadLocal (counts);
                 }
 
-                public void run(Integer i) {
+                public void run(int i) {
                   BigInteger x = BigInteger.valueOf(i);
                   BigInteger y = BigInteger.valueOf(seed - i);
 
 
-                  if(x.isProbablePrime(64) && y.isProbablePrime(64)) ++ localCount.item;
-
+                  if(x.isProbablePrime(64) && y.isProbablePrime(64)) {
+		     localCount.item ++;
+		     maxX = (i > maxX) ? i : maxX;
+		     minX = (i < minX) ? i : minX;
                 }
+		}
 
               });
+	
+              if(counts.item == 1) {
+		System.out.println("1 solution");
+             	 System.out.printf("%d = %d + %d%n", seed, maxX, seed - maxX);
 
-              System.out.println(counts);
+		} else if (counts.item > 1) {
+		System.out.printf("%d solutions%n", counts.item);
+		System.out.printf("%d = %d + %d%n", seed, minX, seed - minX);
+		System.out.printf("%d = %d + %d%n", seed, maxX, seed - maxX);
+		}
+		 else {
+		System.out.println("No solutions");
+		 }
 
 
         } catch (Exception ex) {
