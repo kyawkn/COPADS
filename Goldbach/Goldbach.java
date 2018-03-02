@@ -41,13 +41,17 @@ public class Goldbach extends Task {
             // initial minX and maxX value
             maxX = 0;
             minX = seed;
-            parallelFor(1, seed / 2).exec(new Loop() {
+            parallelFor(3, seed / 2).exec(new Loop() {
 
                 // local count
                 IntVbl localCount;
+                IntVbl localMax;
+                IntVbl localMin;
 
                 // threads start
                 public void start() {
+                    localMax = threadLocal(maxX);
+                    localMin = threadLocal(minX);
                     localCount = threadLocal(counts);
                 }
 
@@ -61,8 +65,8 @@ public class Goldbach extends Task {
                     if (x.isProbablePrime(64) && y.isProbablePrime(64)) {
                         localCount.item++;
                         // assign min and max
-                        maxX = (i > maxX) ? i : maxX;
-                        minX = (i < minX) ? i : minX;
+                        localMax = (i > localMax) ? i : locaclMax;
+                        localMin = (i < localMin) ? i : localMin;
                     }
                 }
 
