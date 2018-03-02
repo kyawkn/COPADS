@@ -21,8 +21,8 @@ public class Goldbach extends Task {
     // shared variables
     IntVbl counts;
     // min and max x values
-    int maxX;
-    int minX;
+    IntVbl maxX;
+    IntVbl minX;
 
     // main method
     public void main(String[] args) throws Exception {
@@ -33,14 +33,14 @@ public class Goldbach extends Task {
 
             seed = Integer.parseInt(args[0]);
             counts = new IntVbl.Sum(0);
-
+		
             // error check
             if (seed < 5) usage(1);
             if (seed % 2 != 0) usage(1);
 
             // initial minX and maxX value
-            maxX = 0;
-            minX = seed;
+            maxX = new IntVbl.Max(0);
+            minX = new IntVbl.Min(seed);
             parallelFor(3, seed / 2).exec(new Loop() {
 
                 // local count
@@ -65,8 +65,8 @@ public class Goldbach extends Task {
                     if (x.isProbablePrime(64) && y.isProbablePrime(64)) {
                         localCount.item++;
                         // assign min and max
-                        localMax = (i > localMax) ? i : locaclMax;
-                        localMin = (i < localMin) ? i : localMin;
+                        localMax.item = (i > localMax.item) ? i : localMax.item;
+                        localMin.item = (i < localMin.item) ? i : localMin.item;
                     }
                 }
 
@@ -77,12 +77,12 @@ public class Goldbach extends Task {
             if (counts.item == 1) {
                 System.out.println("1 solution");
                 // only max value is used bc there is only one value
-                System.out.printf("%d = %d + %d%n", seed, maxX, seed - maxX);
+                System.out.printf("%d = %d + %d%n", seed, maxX.item, seed - maxX.item);
 
             } else if (counts.item > 1) {
                 System.out.printf("%d solutions%n", counts.item);
-                System.out.printf("%d = %d + %d%n", seed, minX, seed - minX);
-                System.out.printf("%d = %d + %d%n", seed, maxX, seed - maxX);
+                System.out.printf("%d = %d + %d%n", seed, minX.item, seed - minX.item);
+                System.out.printf("%d = %d + %d%n", seed, maxX.item, seed - maxX.item);
             } else {
                 System.out.println("No solutions");
             }
