@@ -65,9 +65,11 @@ public class Goldbach extends Task {
                     if (x.isProbablePrime(64) && y.isProbablePrime(64)) {
                         localCount.item++;
                         // assign min and max
-                        localMax.item = (i > localMax.item) ? i : localMax.item;
-                        localMin.item = (i < localMin.item) ? i : localMin.item;
-                    }
+                        //localMax.item = (i > localMax.item) ? i : localMax.item;
+                        //localMin.item = (i < localMin.item) ? i : localMin.item;
+                    	localMax.reduce(i);
+			localMin.reduce(i);
+			}
                 }
 
             });
