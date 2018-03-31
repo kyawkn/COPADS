@@ -1,10 +1,4 @@
-import javax.swing.BorderFactory;
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.*;
 
 /**
  * Class SixQueensView provides the user interface for the Six Queens Game.
@@ -12,7 +6,7 @@ import javax.swing.JTextField;
  * @author  Alan Kaminsky
  * @version 01-Mar-2018
  */
-public class SixQueensView
+public class SixQueensView implements ModelListener
 {
 
 // Hidden data members.
@@ -23,6 +17,8 @@ public class SixQueensView
     private SixQueensJPanel board;
     private JTextField messageField;
     private JButton newGameButton;
+
+    private ViewListener listener;
 
 // Hidden constructors.
 
@@ -61,5 +57,124 @@ public class SixQueensView
         frame.pack();
         frame.setVisible (true);
     }
+
+    public static SixQueensView create
+            (final String name)
+    {
+        final UIRef uiref = new UIRef();
+        runOnSwingThread (new Runnable()
+        {
+            public void run()
+            {
+                uiref.ui = new SixQueensView (name);
+            }
+        });
+        return uiref.ui;
+    }
+
+
+    public void newGame() {
+        runOnSwingThread(new Runnable() {
+            @Override
+            public void run() {
+                board.clear();
+            }
+        });
+    }
+
+
+
+    public static class UIRef {
+        public SixQueensView ui;
+    }
+
+
+    public void setListener
+            (final ViewListener listener)
+    {
+        runOnSwingThread (new Runnable()
+        {
+            public void run()
+            {
+                SixQueensView.this.listener = listener;
+            }
+        });
+    }
+
+
+    public void setQueenMark(final int row, final int col) {
+        runOnSwingThread(new Runnable() {
+            public void run() {
+                board.setQueen(row, col, true);
+            }
+        });
+    }
+
+    public void yourTurn() {
+        runOnSwingThread(new Runnable() {
+            @Override
+            public void run() {
+                messageField.setText("Your turn");
+                newGameButton.setEnabled(true);
+            }
+        });
+    }
+
+    public void otherTurn(final String name) {
+        runOnSwingThread(new Runnable() {
+            public void run() {
+                messageField.setText(name + "'s turn");
+                newGameButton.setEnabled(true);
+            }
+        });
+    }
+
+    public void youWin() {
+        runOnSwingThread(new Runnable() {
+            public void run() {
+                messageField.setText("You win!");
+                newGameButton.setEnabled(true);
+            }
+        });
+    }
+
+    public void otherWin(final String name) {
+        runOnSwingThread(new Runnable()
+        {
+            public void run() {
+                messageField.setText(name + "wins!");
+                newGameButton.setEnabled(true);
+            }
+        });
+    }
+
+
+    public void waitingForOther() {
+        runOnSwingThread(new Runnable() {
+            @Override
+            public void run() {
+                messageField.setText("Waiting for partner");
+                newGameButton.setEnabled(false);
+            }
+        });
+    }
+
+    public void quit() {
+        // successful exit
+        System.exit(0);
+
+    }
+
+    private static void runOnSwingThread(Runnable task) {
+        try {
+
+            SwingUtilities.invokeAndWait (task);
+
+        } catch (Throwable exc) {
+            exc.printStackTrace(System.err);
+            System.exit(1);
+        }
+    }
+
 
 }

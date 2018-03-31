@@ -1,10 +1,10 @@
 // file Mark.java
 //
 /**
- * Enum Mark enumrates the
+ * Enum Queen enumrates the
  */
 
-public enum Mark {
+public enum Queen {
 
     /**
      * Visible empty blank square
@@ -25,18 +25,17 @@ public enum Mark {
      * valueOf converts the given ordinal into an enum.
      *
      * @param ordinal Ordinal
-     * @return Enum Mark
-     * @exception IllegalArgumentException is thrwon if ordinal is invalid.
+     * @return Enum Queen
+     * @exception IllegalArgumentException is thrown if ordinal is invalid.
      */
-    public static Mark valueOf (int ordinal) {
+    public static Queen valueOf (int ordinal) {
         switch (ordinal) {
             case 0: return BLANK;
             case 1: return Q;
             case 2: return INV;
             default:
                 throw new IllegalArgumentException (String.format
-                        ("Mark.valueOf(): ordinal = %d illegal", ordinal);
-                )
+                        ("Queen.valueOf(): illegal ordinal value = %d ", ordinal));
         }
     }
 
