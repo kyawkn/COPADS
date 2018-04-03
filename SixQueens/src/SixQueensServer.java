@@ -1,3 +1,7 @@
+//
+//
+
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -5,6 +9,10 @@ import java.net.Socket;
 
 public class SixQueensServer {
 
+    /**
+     *
+     * @param args
+     */
     public static void main (String[] args) {
 
         if (args.length != 2) displayUsage();
@@ -37,6 +45,12 @@ public class SixQueensServer {
     }
 
 
+    /**
+     *
+     * @param val
+     * @param lbl
+     * @return
+     */
     private static int makeInt(String val, String lbl) {
         int i = 0;
 
@@ -48,18 +62,29 @@ public class SixQueensServer {
         return i;
     }
 
+    /**
+     *
+     * @param exc
+     */
     private static void displayError(IOException exc) {
         System.err.println("SixQueens: I/O error");
         exc.printStackTrace(System.err);
         System.exit(1);
     }
 
+    /**
+     *
+     * @param err
+     */
     private static void displayUsageError(String err) {
         System.err.printf("SixQueens: %s%n", err);
         displayUsage();
 
     }
 
+    /**
+     *
+     */
     private static void displayUsage() {
 
         System.err.println("java SixQueens <host> <port>");

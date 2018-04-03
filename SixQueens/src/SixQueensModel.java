@@ -1,4 +1,7 @@
 
+//
+//
+
 
 public class SixQueensModel implements ViewListener {
 
@@ -12,12 +15,18 @@ public class SixQueensModel implements ViewListener {
     private BoardState gameBoard = new BoardState();
 
 
+    /**
+     * constructor
+     */
     public SixQueensModel() {
     }
 
 
-
-
+    /**
+     *
+     * @param view
+     * @param name
+     */
     public synchronized void join(ModelListener view, String name) {
 
         if(firstPlayer == null) {
@@ -31,6 +40,12 @@ public class SixQueensModel implements ViewListener {
         }
     }
 
+    /**
+     *
+     * @param view
+     * @param row
+     * @param col
+     */
     public synchronized void chosenQueen(ModelListener view, int row, int col) {
 
         // TODO change the mark values
@@ -43,6 +58,10 @@ public class SixQueensModel implements ViewListener {
 
     }
 
+    /**
+     *
+     * @param view
+     */
     public void newGame(ModelListener view) {
 
         if(secondPlayer != null)
@@ -50,6 +69,10 @@ public class SixQueensModel implements ViewListener {
 
     }
 
+    /**
+     *
+     * @param view
+     */
     public void quit(ModelListener view) {
         if (firstView != null)
             firstView.quit();
@@ -60,10 +83,17 @@ public class SixQueensModel implements ViewListener {
     }
 
 
+    /**
+     *
+     * @return
+     */
     public synchronized boolean isGameOver() {
         return isGameOver;
     }
 
+    /**
+     *
+     */
     private void createNewGame() {
 
         gameBoard.clear();
@@ -76,6 +106,12 @@ public class SixQueensModel implements ViewListener {
     }
 
 
+    /**
+     *
+     * @param current
+     * @param row
+     * @param col
+     */
     private void setQueen(ModelListener current, int row, int col) {
 
         gameBoard.setQueenMark(row, col);
@@ -100,6 +136,10 @@ public class SixQueensModel implements ViewListener {
                 turn = secondView;
                 firstView.otherTurn(secondPlayer);
                 secondView.yourTurn();
+            } else {
+                turn = firstView;
+                firstView.yourTurn();
+                secondView.otherTurn(firstPlayer);
             }
         }
     }

@@ -24,7 +24,6 @@ public class ModelProxy implements ViewListener {
             input = new DataInputStream(socket.getInputStream());
         } catch (IOException exc) {
             displayError(exc);
-            new ReaderThread().start();
         }
     }
 
