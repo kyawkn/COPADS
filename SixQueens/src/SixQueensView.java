@@ -1,3 +1,13 @@
+// File: SixQueensView.java
+// Unit: Class SixQueensView
+
+// *********************************************************************************
+// This file uses TicTacToeView.java file from Tic-Tac-Toe game as a reference and
+// add appropriate modifications to work with SixQueens Game
+// Original Author @Alan Kaminsky at ark@cs.rit.edu
+// Original file can be found at https://www.cs.rit.edu/~ark/251/module08/notes.shtml
+// **********************************************************************************
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +18,8 @@ import java.awt.event.WindowEvent;
  * Class SixQueensView provides the user interface for the Six Queens Game.
  *
  * @author  Alan Kaminsky
- * @version 01-Mar-2018
+ * @author Kyaw Khant Nyar
+ * @version 03-April-2018
  */
 public class SixQueensView implements ModelListener
 {
@@ -88,6 +99,11 @@ public class SixQueensView implements ModelListener
         frame.setVisible (true);
     }
 
+    /**
+     * Construct a new SixQueens view object
+     * @param name player's name
+     * @return view object
+     */
     public static SixQueensView create
             (final String name)
     {
@@ -103,6 +119,9 @@ public class SixQueensView implements ModelListener
     }
 
 
+    /**
+     * Report that a new game was started.
+     */
     public void newGame() {
         runOnSwingThread(new Runnable() {
             @Override
@@ -112,13 +131,15 @@ public class SixQueensView implements ModelListener
         });
     }
 
-
-
     public static class UIRef {
         public SixQueensView ui;
     }
 
 
+    /**
+     * Set the view listener
+     * @param listener
+     */
     public void setListener
             (final ViewListener listener)
     {
@@ -132,6 +153,11 @@ public class SixQueensView implements ModelListener
     }
 
 
+    /**
+     * Report that a Queen was placed on a square
+     * @param row row position
+     * @param col col position
+     */
     public void setQueenMark(final int row, final int col) {
         runOnSwingThread(new Runnable() {
             public void run() {
@@ -188,6 +214,9 @@ public class SixQueensView implements ModelListener
         });
     }
 
+    /**
+     * Report that it's the player's turn
+     */
     public void yourTurn() {
         runOnSwingThread(new Runnable() {
             @Override
@@ -198,6 +227,10 @@ public class SixQueensView implements ModelListener
         });
     }
 
+    /**
+     * Report that it's the other player's turn
+     * @param name other player's name
+     */
     public void otherTurn(final String name) {
         runOnSwingThread(new Runnable() {
             public void run() {
@@ -207,6 +240,9 @@ public class SixQueensView implements ModelListener
         });
     }
 
+    /**
+     * Report that the player wins
+     */
     public void youWin() {
         runOnSwingThread(new Runnable() {
             public void run() {
@@ -216,6 +252,10 @@ public class SixQueensView implements ModelListener
         });
     }
 
+    /**
+     * Report that the other player wins
+     * @param name the other player's name
+     */
     public void otherWin(final String name) {
         runOnSwingThread(new Runnable()
         {
@@ -227,6 +267,9 @@ public class SixQueensView implements ModelListener
     }
 
 
+    /**
+     * Report that the player is waiting for a partner
+     */
     public void waitingForOther() {
         runOnSwingThread(new Runnable() {
             @Override
@@ -237,12 +280,20 @@ public class SixQueensView implements ModelListener
         });
     }
 
+    /**
+     * Report that a player has quit
+     */
     public void quit() {
         // successful exit
         System.exit(0);
 
     }
 
+    // Hidden operations
+    /**
+     * Execute the given runnable object on the swing thread
+     * @param task
+     */
     private static void runOnSwingThread(Runnable task) {
         try {
             SwingUtilities.invokeAndWait (task);

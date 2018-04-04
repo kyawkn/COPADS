@@ -1,19 +1,33 @@
 // File: BoardState.java
+// Unit: Class BoardState
 
+// ******************************************************************************
+// This file uses BoardState.java file from Tic-Tac-Toe game as a reference and
+// add appropriate modifications to work with SixQueens Game
+// Original Author @Alan Kaminsky at ark@cs.rit.edu
+// Original file can be found at https://www.cs.rit.edu/~ark/251/module08/notes.shtml
+// ******************************************************************************
 import java.util.Arrays;
 
-
+/**
+ * Class BoardState provides the state of the SixQueens Game
+ * @author Kyaw Khant Nyar
+ * @version 3-April-2018
+ */
 public class BoardState {
 
-    public static final int rows = 6;
-    public static final int cols = 6;
-
-
+    // data members
+    private static final int rows = 6;
+    private static final int cols = 6;
 
     private Queen[][] queens;
     private int spaceLeft;
 
+    // constructors
 
+    /**
+     * Construct a new Board
+     */
     public BoardState() {
         queens = new Queen[rows][cols];
         clear();
@@ -21,7 +35,8 @@ public class BoardState {
 
 
     /**
-     *
+     * Clear the board and set square as BLANK
+     * and total space of 36
      */
     public void clear() {
         for(Queen[] row: queens)
@@ -31,9 +46,10 @@ public class BoardState {
     }
 
     /**
-     *
-     * @param row
-     * @param col
+     * Set the QUEEN mark at the location, and all the possible invisible
+     * squares
+     * @param row row position to place the queen mark
+     * @param col col position to place the queen mark
      */
     public void setQueenMark(int row, int col) {
         this.queens[row][col] = Queen.Q;
@@ -105,10 +121,10 @@ public class BoardState {
     }
 
     /**
-     *
-     * @param row
-     * @param col
-     * @return
+     * return the mark at the location
+     * @param row row index
+     * @param col col index
+     * @return Queen mark at row, col
      */
     public Queen getQueenMark(int row, int col) {
         return this.queens[row][col];
@@ -116,8 +132,9 @@ public class BoardState {
 
 
     /**
-     *
-     * @return
+     * check the total spaces left and if there is not place left
+     * then current player wins the game
+     * @return Boolean referring if the current player has won the game or not
      */
     public boolean checkWin () {
 

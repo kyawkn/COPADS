@@ -1,7 +1,16 @@
 // file Mark.java
-//
+// Unit Enum Queen
+
+// *********************************************************************************
+// This file uses Mark.java file from Tic-Tac-Toe game as a reference and
+// add appropriate modifications to work with SixQueens Game
+// Original Author @Alan Kaminsky at ark@cs.rit.edu
+// Original file can be found at https://www.cs.rit.edu/~ark/251/module08/notes.shtml
+// **********************************************************************************
 /**
- * Enum Queen enumrates the
+ * Enum Queen enumerates the marks that can appear on the SixQueens game board.
+ * @author Kyaw Khant Nyar
+ * @version 3-April-2018
  */
 
 public enum Queen {

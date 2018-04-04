@@ -1,17 +1,28 @@
-//
-//
+// File SixQueensServer.java
+// Unit class SixQueensServer
 
+// *********************************************************************************
+// This file uses TicTacToeServer.java file from Tic-Tac-Toe game as a reference and
+// add appropriate modifications to work with SixQueens Game
+// Original Author @Alan Kaminsky at ark@cs.rit.edu
+// Original file can be found at https://www.cs.rit.edu/~ark/251/module08/notes.shtml
+// **********************************************************************************
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+/**
+ * SixQueensServer is the main server program for the SixQueens game
+ * @author Kyaw Khant Nyar
+ * @version 3-April-2018
+ */
 public class SixQueensServer {
 
     /**
-     *
-     * @param args
+     * main program
+     * @param args system arguments
      */
     public static void main (String[] args) {
 
@@ -20,9 +31,12 @@ public class SixQueensServer {
         int port = makeInt(args[1], "<port>");
 
         try {
+
+            // Listen for connections from clients
             ServerSocket serverSocket = new ServerSocket();
             serverSocket.bind (new InetSocketAddress(host, port));
 
+            // Session management
             SixQueensModel model = null;
 
             while (true){
@@ -46,10 +60,10 @@ public class SixQueensServer {
 
 
     /**
-     *
-     * @param val
-     * @param lbl
-     * @return
+     * Parse the string into an int
+     * @param val string to cast into an int
+     * @param lbl label
+     * @return if no error occurs, return the int
      */
     private static int makeInt(String val, String lbl) {
         int i = 0;
@@ -63,8 +77,8 @@ public class SixQueensServer {
     }
 
     /**
-     *
-     * @param exc
+     * Take in the exception and display it
+     * @param exc Exception
      */
     private static void displayError(IOException exc) {
         System.err.println("SixQueens: I/O error");
@@ -73,8 +87,8 @@ public class SixQueensServer {
     }
 
     /**
-     *
-     * @param err
+     * Print error message and the usage
+     * @param err Error message to display
      */
     private static void displayUsageError(String err) {
         System.err.printf("SixQueens: %s%n", err);
@@ -83,11 +97,11 @@ public class SixQueensServer {
     }
 
     /**
-     *
+     * Print usage for SixQueensServer
      */
     private static void displayUsage() {
 
-        System.err.println("java SixQueens <host> <port>");
+        System.err.println("java SixQueensServer <host> <port>");
         System.exit(1);
     }
 }
