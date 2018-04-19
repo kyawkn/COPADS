@@ -2,14 +2,8 @@
 // Unit: Class Leaker
 
 
-import java.io.File;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
-import java.util.Random;
-import java.util.Scanner;
 
 public class Leaker {
 
@@ -37,30 +31,13 @@ public class Leaker {
             String pubFileName = args[4];
             String message = args[5];
 
-            File pubFile = new File(pubFileName);
-            Scanner sn = new Scanner(pubFile);
-
-            // read the exponent and n into BigInteger
-            BigInteger exp = new BigInteger(sn.nextLine());
-            BigInteger n = new BigInteger(sn.nextLine());
-
-            OAEP oaep = new OAEP();
-            byte[] seed = new byte[32];
-//            new Random().nextBytes(seed);
-
-
-            BigInteger plaintext = oaep.encode(message, seed);
-
-            BigInteger encoded = plaintext.modPow(exp, n); // RSA encoded
-            byte[] payload = encoded.toByteArray();
-
-
-            //create mailbox
             DatagramSocket mailbox = new DatagramSocket(new InetSocketAddress(lhost, lport));
-            DatagramPacket secretPacket =
-                    new DatagramPacket(payload, payload.length, new InetSocketAddress(rhost, rport));
 
-            mailbox.send(secretPacket);
+            ReporterProxy proxy = new ReporterProxy(mailbox, new InetSocketAddress(rhost, rport), pubFileName);
+
+            LeakerModel model = new LeakerModel(proxy);
+            model.leak(message);
+
 
         } catch (Exception exc) {
            printExceptionStack(exc);

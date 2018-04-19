@@ -1,7 +1,11 @@
-
+import java.io.IOException;
 
 public interface LeakerListener {
 
-
-    public void blowWhistle();
+    /**
+     *
+     * @param message
+     * @throws IOException
+     */
+    public void report(String message) throws IOException;
 }
