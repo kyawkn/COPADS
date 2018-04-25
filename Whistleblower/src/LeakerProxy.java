@@ -1,72 +1,68 @@
 // File: LeakerProxy.java
 // Unit: class LeakerProxy
 
-
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
-import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.util.Scanner;
 
+/**
+ * LeakerProxy provides network proxy for Leaker objects. It is created in the Reporter program
+ * and communicate with the Leaker.
+ * @author Kyaw Khant Nyar
+ */
 public class LeakerProxy {
 
     // private data
     private LeakerListener listener;
     private DatagramSocket mailbox;
-    private String privateFileName;
+    private final int maxSize = 260;
 
-    public LeakerProxy(DatagramSocket mailbox, String privateFileName) {
+
+    /**
+     * constructor
+     * @param mailbox datagram socket
+     */
+    public LeakerProxy(DatagramSocket mailbox) {
 
         this.mailbox = mailbox;
-        this.privateFileName = privateFileName;
-
     }
 
+    /**
+     * set listener and run the thread
+     * @param listener the LeakerListener object
+     */
     public void setListener(LeakerListener listener) {
         this.listener = listener;
         new ReaderThread().start();
     }
 
+    /**
+     * the thread, receives the DatagramPacket, figure out the actual payload size
+     * and send the payload to the listener to print out the secret message
+     */
     private class ReaderThread extends Thread {
         public void run() {
-            byte[] payload = new byte[260];
+            byte[] payload = new byte[maxSize];
 
             try {
                 for (;;) {
 
-                    OAEP oaep = new OAEP();
                     DatagramPacket secretPacket = new DatagramPacket(payload, payload.length);
                     mailbox.receive(secretPacket);
 
                     DataInputStream in = new DataInputStream(new ByteArrayInputStream
                             (payload, 0, secretPacket.getLength()));
 
-                    int size = in.read(payload);
+                    int size = in.read(payload); // get actual payload size
 
                     byte[] actual = new byte[size];
 
                     for (int i = 0; i < size; i++) {
                         actual[i] = payload[i];
                     }
-
-
-                    // get private keys
-                    File privateFile = new File(privateFileName);
-                    Scanner sn = new Scanner(privateFile);
-                    BigInteger exp = new BigInteger(sn.nextLine());
-                    BigInteger n = new BigInteger(sn.nextLine());
-
-                    BigInteger secretBI = new BigInteger(actual);
-
-
-                    BigInteger plainText = secretBI.modPow(exp, n); //  c^d (mod n)
-
-                    String message = oaep.decode(plainText);
-
-                    listener.report(message);
+                    listener.report(actual);
 
 
                 }

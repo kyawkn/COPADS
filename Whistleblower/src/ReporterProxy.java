@@ -1,51 +1,38 @@
+// File: ReporterProxy.java
+// Unit: Class ReporterProxy
+
+
 import java.io.*;
-import java.math.BigInteger;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
-import java.util.Scanner;
 
+
+/**
+ * ReporterProxy provides network proxy for Reporter objects. It is created in the Leaker program
+ * and communicate with the Reporter.
+ * @author Kyaw Khant Nyar
+ */
 public class ReporterProxy implements LeakerListener {
 
     private DatagramSocket mailbox;
     private SocketAddress destination;
-    private String pubFileName;
 
     /**
-     *
-     * @param mailbox
-     * @param destination
-     * @param pubFileName
+     * constructor
+     * @param mailbox DatagramSocket
+     * @param destination SocketAddress
      */
-    public ReporterProxy (DatagramSocket mailbox, SocketAddress destination, String pubFileName) {
+    public ReporterProxy (DatagramSocket mailbox, SocketAddress destination) {
         this.mailbox = mailbox;
         this.destination = destination;
-        this.pubFileName = pubFileName;
     }
 
     /**
-     *
+     * report sends the encrypted byte array message to the Leaker
      * @throws IOException
      */
-    public void report(String message) throws IOException {
-
-        File pubFile = new File(pubFileName);
-        Scanner sn = new Scanner(pubFile);
-
-        // read the exponent and n into BigInteger
-        BigInteger exp = new BigInteger(sn.nextLine());
-        BigInteger n = new BigInteger(sn.nextLine());
-
-        OAEP oaep = new OAEP();
-        byte[] seed = new byte[32];
-
-
-        BigInteger plaintext = oaep.encode(message, seed);
-
-        BigInteger encoded = plaintext.modPow(exp, n); // RSA encoded
-        byte[] payload = encoded.toByteArray();
-
+    public void report(byte[] payload) throws IOException {
 
         mailbox.send(new DatagramPacket(payload, payload.length, destination));
 

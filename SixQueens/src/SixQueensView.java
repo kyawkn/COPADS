@@ -161,6 +161,7 @@ public class SixQueensView implements ModelListener
     public void setQueenMark(final int row, final int col) {
         runOnSwingThread(new Runnable() {
             public void run() {
+
                 board.setQueen(row, col, true);
 
                 for (int i = 0; i < size; i++) {

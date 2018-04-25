@@ -5,6 +5,12 @@
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
+/**
+ * Reporter takes in the secret message from the console, and then encrypt it using RSA
+ * then the message is converted into byte array and send it as a UDP Datagram to the
+ * Reporter.
+ * @author Kyaw Khant Nyar
+ */
 public class Leaker {
 
     /**
@@ -33,10 +39,10 @@ public class Leaker {
 
             DatagramSocket mailbox = new DatagramSocket(new InetSocketAddress(lhost, lport));
 
-            ReporterProxy proxy = new ReporterProxy(mailbox, new InetSocketAddress(rhost, rport), pubFileName);
+            ReporterProxy proxy = new ReporterProxy(mailbox, new InetSocketAddress(rhost, rport));
 
             LeakerModel model = new LeakerModel(proxy);
-            model.leak(message);
+            model.leak(message, pubFileName);
 
 
         } catch (Exception exc) {
@@ -47,6 +53,13 @@ public class Leaker {
     }
 
     // private methods
+
+    /**
+     * parse the input string into integer
+     * @param val the value to parse
+     * @param label the label of the value
+     * @return
+     */
     private static int parseInt(String val, String label) {
         int i = 0;
 
@@ -68,11 +81,18 @@ public class Leaker {
         System.exit(1);
     }
 
+    /**
+     *
+     * @param error
+     */
     private static void printUsageError(String error) {
         System.err.printf("Leaker: %s%n", error);
         printUsage();
     }
 
+    /**
+     *
+     */
     private static void printUsage(){
         System.err.println("Usage: java Leaker <rhost> <rport> <lhost> <lport> <publickeyfile> <message>\n");
         System.exit(1); // exit

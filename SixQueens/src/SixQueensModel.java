@@ -72,7 +72,7 @@ public class SixQueensModel implements ViewListener {
      * Report that a new game was requested
      * @param view View object reporting
      */
-    public void newGame(ModelListener view) {
+    public synchronized void newGame(ModelListener view) {
 
         if(secondPlayer != null)
             createNewGame();
@@ -83,7 +83,7 @@ public class SixQueensModel implements ViewListener {
      * Report that the player quits
      * @param view View object reporting
      */
-    public void quit(ModelListener view) {
+    public synchronized void quit(ModelListener view) {
         if (firstView != null)
             firstView.quit();
         if (secondView != null)
@@ -106,7 +106,7 @@ public class SixQueensModel implements ViewListener {
     /**
      * Start a new game
      */
-    private void createNewGame() {
+    private synchronized void createNewGame() {
         // Clear the board and inform the players
         gameBoard.clear();
         firstView.newGame();
@@ -125,11 +125,12 @@ public class SixQueensModel implements ViewListener {
      * @param row Queen row position
      * @param col Queen col position
      */
-    private void setQueen(ModelListener current, int row, int col) {
+    private synchronized void setQueen(ModelListener current, int row, int col) {
 
         // Set the mark and inform the players
         gameBoard.setQueenMark(row, col);
         firstView.setQueenMark(row, col);
+
         secondView.setQueenMark(row, col);
 
         // check winning state

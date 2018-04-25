@@ -144,6 +144,7 @@ public class ModelProxy implements ViewListener {
                             row = input.readByte();
                             col = input.readByte();
                             listener.setQueenMark(row, col);
+
                             break;
                         case 'O':
                             listener.waitingForOther();
