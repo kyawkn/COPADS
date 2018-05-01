@@ -19,7 +19,7 @@ public class ReporterModel implements LeakerListener{
      * Reporter constructor
      */
     public ReporterModel(String privateFileName) throws IOException{
-        RSA rsa = new RSA();
+        this.rsa = new RSA();
         rsa.setKeys(privateFileName);
     }
 
