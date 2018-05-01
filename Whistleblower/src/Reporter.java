@@ -43,13 +43,7 @@ public class Reporter {
             DatagramSocket mailbox = new DatagramSocket(new InetSocketAddress(rhost, rport));
 
             LeakerProxy proxy = new LeakerProxy(mailbox);
-            File privateFile = new File(privateFileName);
-            if (!privateFile.exists())
-                printUsageError("FileNotFoundError: '"+ privateFileName + "' doesn't exist.");
-
-            ReporterModel model = new ReporterModel(privateFile);
-
-
+            ReporterModel model = new ReporterModel(privateFileName);
             proxy.setListener(model);
         } catch (IOException exc) {
             exc.printStackTrace(System.err);

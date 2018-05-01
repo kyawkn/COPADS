@@ -2,9 +2,6 @@
 // Unit: LeakerModel Class
 
 import java.io.File;
-import java.io.IOException;
-import java.math.BigInteger;
-import java.util.Scanner;
 
 /**
  * Leaker model provides the application logic for the Leaker
@@ -14,7 +11,6 @@ public class LeakerModel {
 
     // private data
     private LeakerListener listener;
-
 
     /**
      * constructor
@@ -33,11 +29,8 @@ public class LeakerModel {
     public void leak(String message, String pubFileName) {
         try {
             // read public key file
-            File pubFile = new File(pubFileName);
             RSA rsa = new RSA();
-            rsa.setKeys(pubFile);
-
-
+            rsa.setKeys(pubFileName);
 
             byte[] payload = rsa.encode(message);
             listener.report(payload);

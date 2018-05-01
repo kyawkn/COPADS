@@ -4,8 +4,6 @@
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
-import java.util.Scanner;
 
 /**
  * Reporter model provides the application logic for the Reporter
@@ -15,13 +13,14 @@ public class ReporterModel implements LeakerListener{
 
 
     // private data
-    private File privateFile;
+    private RSA rsa;
 
     /*
      * Reporter constructor
      */
-    public ReporterModel(File privateFileName) {
-        this.privateFile = privateFileName;
+    public ReporterModel(String privateFileName) throws IOException{
+        RSA rsa = new RSA();
+        rsa.setKeys(privateFileName);
     }
 
     /**
@@ -32,13 +31,11 @@ public class ReporterModel implements LeakerListener{
     public void report (byte[] payload){
 
         try {
-            RSA rsa = new RSA();
-            rsa.setKeys(privateFile);
+
             System.out.println(rsa.decode(payload));
         } catch (Exception exc) {
             System.err.println("ERROR");
         }
-
 
     }
 

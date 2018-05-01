@@ -1,6 +1,7 @@
 // File: RSA.java
 // Class RSA
-// author@ Kyaw Khant Nyar
+//
+
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -8,6 +9,7 @@ import java.util.Scanner;
 
 /**
  * RSA class handles the RSA key crypto encoding and decoding
+ * author@ Kyaw Khant Nyar
  */
 public class RSA {
 
@@ -25,10 +27,12 @@ public class RSA {
 
     /**
      * get the keys from the file and set the keys for later use
-     * @param file keyfile
+     * @param filename keyfile name
      * @throws IOException
      */
-    public void setKeys(File file) throws IOException{
+    public void setKeys(String filename) throws IOException{
+
+        File file = new File(filename);
         Scanner sn = new Scanner(file);
         this.exp = new BigInteger(sn.nextLine());
         this.n = new BigInteger(sn.nextLine());
@@ -39,7 +43,6 @@ public class RSA {
      * and RSA key cryptography
      * @param message input string
      * @return encoded byte array
-     * @throws Exception
      */
     public byte[] encode(String message){
 
