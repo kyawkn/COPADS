@@ -34,23 +34,15 @@ public class LeakerModel {
         try {
             // read public key file
             File pubFile = new File(pubFileName);
-            Scanner sn = new Scanner(pubFile);
+            RSA rsa = new RSA();
+            rsa.setKeys(pubFile);
 
-            // read the exponent and n into BigInteger
-            BigInteger exp = new BigInteger(sn.nextLine());
-            BigInteger n = new BigInteger(sn.nextLine());
 
-            OAEP oaep = new OAEP();
-            byte[] seed = new byte[32];
 
-            // OAPE encode
-            BigInteger plaintext = oaep.encode(message, seed);
-
-            BigInteger encoded = plaintext.modPow(exp, n); // RSA encoded
-            byte[] payload = encoded.toByteArray();
+            byte[] payload = rsa.encode(message);
             listener.report(payload);
 
-        } catch (IOException exc) {
+        } catch (Exception exc) {
             exc.printStackTrace(System.err);
             System.exit(1);
         }

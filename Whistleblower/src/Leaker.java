@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
 /**
- * Reporter takes in the secret message from the console, and then encrypt it using RSA
+ * Leaker takes in the secret message from the console, and then encrypt it using RSA
  * then the message is converted into byte array and send it as a UDP Datagram to the
  * Reporter.
  * @author Kyaw Khant Nyar

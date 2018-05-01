@@ -2,6 +2,8 @@
 // Unit: Class Reporter
 
 // imports
+import java.io.File;
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 
@@ -26,22 +28,33 @@ public class Reporter {
      *
      * @param args commandline arguments
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
 
 
-        if (args.length != 3) printUsage();
+        try {
 
-        String rhost = args[0];
-        int rport = parseInt(args[1], "<rport>");
-        String privateFileName = args[2];
+            if (args.length != 3) printUsage();
+
+            String rhost = args[0];
+            int rport = parseInt(args[1], "<rport>");
+            String privateFileName = args[2];
 
 
-        DatagramSocket mailbox = new DatagramSocket(new InetSocketAddress(rhost, rport));
+            DatagramSocket mailbox = new DatagramSocket(new InetSocketAddress(rhost, rport));
 
-        LeakerProxy proxy = new LeakerProxy(mailbox);
-        ReporterModel model = new ReporterModel(privateFileName);
+            LeakerProxy proxy = new LeakerProxy(mailbox);
+            File privateFile = new File(privateFileName);
+            if (!privateFile.exists())
+                printUsageError("FileNotFoundError: '"+ privateFileName + "' doesn't exist.");
 
-        proxy.setListener(model);
+            ReporterModel model = new ReporterModel(privateFile);
+
+
+            proxy.setListener(model);
+        } catch (IOException exc) {
+            exc.printStackTrace(System.err);
+            System.exit(1);
+        }
     }
 
     // private methods
