@@ -1,7 +1,6 @@
 // Fill: LeakerModel.java
 // Unit: LeakerModel Class
 
-import java.io.File;
 
 /**
  * Leaker model provides the application logic for the Leaker
@@ -19,6 +18,7 @@ public class LeakerModel {
     public LeakerModel (LeakerListener listener) {
         this.listener = listener;
     }
+
 
 
     /**

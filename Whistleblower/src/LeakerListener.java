@@ -13,7 +13,6 @@ public interface LeakerListener {
     /**
      * report the message in a byte array
      * @param payload byte array
-     * @throws IOException
      */
     public void report(byte[] payload) throws IOException;
 }

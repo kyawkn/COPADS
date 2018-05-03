@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  * RSA class handles the RSA key crypto encoding and decoding
- * author@ Kyaw Khant Nyar
+ * @author Kyaw Khant Nyar
  */
 public class RSA {
 
